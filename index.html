@@ -3,477 +3,563 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vedant Dawake | SDET Portfolio</title>
-
+<title>Vedant Dawake | Senior SDET</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
-
-body{
-background:linear-gradient(135deg,#0b132b,#1c2541,#3a506b);
-color:white;
-line-height:1.7;
+:root {
+  --bg: #050a0f;
+  --bg2: #080f18;
+  --surface: #0d1a27;
+  --border: #1a3048;
+  --accent: #00d4ff;
+  --accent2: #0066ff;
+  --accent3: #00ffb3;
+  --text: #e8f4ff;
+  --muted: #5a8aaa;
+  --dim: #2a4a60;
 }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; cursor: none; }
 
-header{
-position:fixed;
-top:0;
-width:100%;
-background:rgba(8,16,35,0.85);
-backdrop-filter:blur(12px);
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:16px 60px;
-z-index:1000;
-border-bottom:1px solid rgba(255,255,255,0.08);
+.cursor { position: fixed; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s, width 0.3s, height 0.3s; mix-blend-mode: screen; }
+.cursor-ring { position: fixed; width: 40px; height: 40px; border: 1px solid rgba(0,212,255,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s; }
+
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 900; padding: 18px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(5,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,212,255,0.06); }
+.nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; color: var(--accent); letter-spacing: -0.5px; }
+.nav-logo span { color: var(--text); }
+.nav-links { display: flex; gap: 36px; }
+.nav-links a { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::after { width: 100%; }
+
+#hero { min-height: 100vh; display: flex; align-items: center; padding: 140px 60px 80px; position: relative; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; }
+
+.bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%); animation: gridpulse 8s ease-in-out infinite; }
+@keyframes gridpulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+.hero-glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,102,255,0.12) 0%, transparent 70%); top: -200px; right: -200px; pointer-events: none; animation: glowpulse 6s ease-in-out infinite; }
+@keyframes glowpulse { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.1);opacity:1} }
+
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2); border-radius: 100px; padding: 6px 16px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 28px; animation: fadein 0.8s ease both; }
+.hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+h1.hero-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(52px, 6vw, 86px); line-height: 0.95; letter-spacing: -3px; color: var(--text); animation: fadein 0.8s 0.1s ease both; }
+h1.hero-name span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+.hero-role { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--muted); margin-top: 20px; letter-spacing: 0.05em; animation: fadein 0.8s 0.2s ease both; }
+.hero-desc { font-size: 16px; color: var(--muted); line-height: 1.8; margin-top: 24px; max-width: 500px; animation: fadein 0.8s 0.3s ease both; }
+.hero-cta { display: flex; gap: 16px; margin-top: 40px; animation: fadein 0.8s 0.4s ease both; }
+
+.btn { padding: 14px 28px; border-radius: 8px; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; transition: all 0.25s; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.btn-primary { background: var(--accent2); color: white; border: 1px solid var(--accent2); }
+.btn-primary:hover { background: transparent; color: var(--accent); border-color: var(--accent); box-shadow: 0 0 24px rgba(0,212,255,0.2); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); border-color: var(--dim); background: var(--surface); }
+
+.terminal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; animation: fadein 0.8s 0.4s ease both; position: relative; }
+.terminal-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,212,255,0.03), transparent 60%); pointer-events: none; }
+.terminal-bar { background: var(--bg2); padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+.terminal-title { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-left: 8px; }
+.terminal-body { padding: 24px; font-family: 'DM Mono', monospace; font-size: 13px; line-height: 2; }
+.t-comment { color: var(--dim); } .t-key { color: var(--accent); } .t-str { color: #ffd700; } .t-num { color: #ff9d6c; } .t-punct { color: var(--muted); }
+.t-cursor { display: inline-block; width: 8px; height: 14px; background: var(--accent); animation: blink 1s infinite; vertical-align: middle; margin-left: 2px; }
+
+@keyframes fadein { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+.stats-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); padding: 40px 60px; display: grid; grid-template-columns: repeat(4,1fr); }
+.stat-item { padding: 0 40px; border-right: 1px solid var(--border); text-align: center; }
+.stat-item:first-child { padding-left: 0; }
+.stat-item:last-child { border-right: none; }
+.stat-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 8px; }
+
+section { padding: 100px 60px; max-width: 1400px; margin: 0 auto; }
+
+.section-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.section-label::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+
+h2.section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(32px,4vw,52px); letter-spacing: -2px; line-height: 1; margin-bottom: 60px; }
+
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--accent), var(--dim), transparent); }
+.timeline-item { position: relative; margin-bottom: 60px; opacity: 0; transform: translateX(-20px); transition: all 0.6s ease; }
+.timeline-item.visible { opacity: 1; transform: translateX(0); }
+.timeline-dot { position: absolute; left: -38px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px rgba(0,212,255,0.5); border: 2px solid var(--bg); }
+.exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
+.exp-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 22px; color: var(--text); }
+.exp-company { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent); margin-bottom: 4px; }
+.exp-period { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); background: var(--surface); border: 1px solid var(--border); padding: 4px 12px; border-radius: 100px; }
+.exp-desc { font-size: 15px; color: var(--muted); line-height: 1.8; margin: 12px 0 16px; }
+
+.awards-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.award-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,215,0,0.06); border: 1px solid rgba(255,215,0,0.2); border-radius: 100px; padding: 4px 12px; font-family: 'DM Mono', monospace; font-size: 11px; color: #ffd700; letter-spacing: 0.05em; }
+.award-badge::before { content: '\2605'; font-size: 9px; }
+
+.achievement-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+.achievement { display: flex; align-items: flex-start; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; transition: border-color 0.3s; }
+.achievement:hover { border-color: var(--dim); }
+.ach-icon { font-size: 18px; margin-top: 1px; flex-shrink: 0; }
+.ach-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.ach-text strong { color: var(--text); }
+
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: 20px; }
+.project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; position: relative; overflow: hidden; transition: all 0.35s; opacity: 0; transform: translateY(30px); }
+.project-card.visible { opacity: 1; transform: translateY(0); }
+.project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,var(--accent2),transparent); opacity: 0; transition: opacity 0.3s; }
+.project-card:hover { border-color: rgba(0,212,255,0.25); transform: translateY(-4px); }
+.project-card:hover::before { opacity: 1; }
+.project-icon { width: 44px; height: 44px; background: rgba(0,102,255,0.12); border: 1px solid rgba(0,102,255,0.25); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 20px; }
+.project-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; margin-bottom: 10px; }
+.project-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+.project-impact { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent3); background: rgba(0,255,179,0.06); border: 1px solid rgba(0,255,179,0.15); border-radius: 6px; padding: 8px 12px; margin-bottom: 16px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--dim); background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 3px 9px; letter-spacing: 0.04em; }
+
+.skills-container { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 20px; }
+.skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; transition: all 0.3s; }
+.skill-group:hover { border-color: var(--dim); }
+.skill-group-title { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px; }
+.skill-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.skill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.skill-name { font-size: 14px; color: var(--text); min-width: 130px; }
+.skill-bar-wrap { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.skill-bar { height: 100%; background: linear-gradient(90deg,var(--accent2),var(--accent)); border-radius: 2px; transform-origin: left; transform: scaleX(0); transition: transform 0.8s ease; }
+
+#contact-outer { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.contact-heading { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(36px,4vw,56px); letter-spacing: -2px; line-height: 1; margin-bottom: 20px; }
+.contact-sub { font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
+.contact-links { display: flex; flex-direction: column; gap: 12px; }
+.contact-link { display: flex; align-items: center; gap: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; text-decoration: none; transition: all 0.3s; color: inherit; }
+.contact-link:hover { border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.04); }
+.contact-link-icon { width: 36px; height: 36px; background: rgba(0,212,255,0.08); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.contact-link-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.contact-link-val { font-size: 14px; color: var(--text); margin-top: 2px; }
+
+footer { text-align: center; padding: 40px 60px; background: var(--bg); font-family: 'DM Mono', monospace; font-size: 12px; color: var(--dim); }
+footer span { color: var(--accent); }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 10px; }
+  #hero { padding: 120px 24px 60px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .terminal-card { display: none; }
+  .stats-strip { grid-template-columns: repeat(2,1fr); padding: 32px 24px; gap: 24px; }
+  .stat-item { border-right: none; padding: 0; }
+  section { padding: 60px 24px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  footer { padding: 32px 24px; }
 }
-
-header h1{font-size:20px;font-weight:600}
-
-nav a{
-margin-left:25px;
-text-decoration:none;
-color:#cbd5ff;
-font-size:15px;
-position:relative;
-transition:0.3s;
-}
-
-nav a:hover{color:white}
-
-nav a.active::after{
-content:"";
-position:absolute;
-bottom:-6px;
-left:0;
-width:100%;
-height:2px;
-background:#60a5fa;
-}
-
-section{
-padding:120px 10%;
-}
-
-.hero{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-background:radial-gradient(circle at top,#243b6b,#0b132b);
-}
-
-.hero h2{
-font-size:50px;
-margin-bottom:10px;
-}
-
-.hero p{
-font-size:18px;
-color:#cbd5ff;
-max-width:700px;
-margin-bottom:30px;
-}
-
-.buttons{display:flex;gap:15px}
-
-button{
-padding:12px 26px;
-border-radius:6px;
-border:none;
-font-size:14px;
-cursor:pointer;
-}
-
-.primary{
-background:#3b82f6;
-color:white;
-}
-
-.secondary{
-background:transparent;
-border:1px solid #3b82f6;
-color:#3b82f6;
-}
-
-.container{max-width:1100px;margin:auto}
-
-.section-title{
-font-size:34px;
-margin-bottom:40px;
-font-weight:600;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:25px;
-}
-
-.card{
-background:rgba(255,255,255,0.05);
-padding:28px;
-border-radius:12px;
-backdrop-filter:blur(6px);
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-6px);
-background:rgba(255,255,255,0.08);
-}
-
-.card h3{margin-bottom:10px;color:#93c5fd}
-/* About Box */
-
-.about-box{
-background:rgba(255,255,255,0.05);
-padding:30px;
-border-radius:12px;
-backdrop-filter:blur(6px);
-color:#e2e8f0;
-}
-
-.about-box p{
-margin-bottom:16px;
-}
-/* Experience Layout */
-
-.experience-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:30px;
-}
-
-.exp-card{
-background:rgba(255,255,255,0.05);
-padding:30px;
-border-radius:12px;
-}
-
-.exp-card h3{color:#93c5fd;margin-bottom:10px}
-
-.exp-card ul{
-padding-left:18px;
-margin-top:10px;
-}
-
-.exp-card li{
-margin-bottom:10px;
-color:#e2e8f0;
-}
-
-/* Skills */
-
-.skills-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:15px;
-}
-
-.skill{
-background:rgba(255,255,255,0.05);
-padding:16px;
-border-radius:8px;
-text-align:center;
-}
-
-/* Footer */
-
-footer{
-text-align:center;
-padding:40px;
-background:#020617;
-margin-top:40px;
-}
-
-/* Modal */
-
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-justify-content:center;
-align-items:center;
-}
-
-.modal-content{
-background:white;
-color:black;
-padding:30px;
-border-radius:10px;
-text-align:center;
-width:320px;
-}
-
-.close{
-margin-top:20px;
-padding:10px 18px;
-background:#3b82f6;
-color:white;
-border:none;
-}
-
-/* Responsive */
-
-@media(max-width:768px){
-
-header{
-flex-direction:column;
-text-align:center;
-padding:14px 20px;
-}
-
-nav{
-margin-top:10px;
-}
-
-nav a{
-margin:8px;
-}
-
-.hero h2{
-font-size:36px;
-}
-
-}
-
 </style>
 </head>
-
 <body>
 
-<header>
-<h1>Vedant Dawake</h1>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 <nav>
-<a href="#about">About</a>
-<a href="#impact">Impact</a>
-<a href="#work">Work</a>
-<a href="#experience">Experience</a>
-<a href="#skills">Skills</a>
-<a href="#contact">Contact</a>
+  <div class="nav-logo">VD<span>.</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
 </nav>
-</header>
 
-<section class="hero">
-<h2>Vedant Dawake</h2>
-<p>Software Development Engineer in Test • Automation Architect • CI/CD Optimization Engineer</p>
-
-<div class="buttons">
-<button class="primary" onclick="openContact()">Contact Me</button>
-<a href="https://linkedin.com/in/vedant-dawake-0643891b4" target="_blank">
-<button class="secondary">LinkedIn</button>
-</a>
-</div>
+<section id="hero" style="max-width:none; padding-top:140px;">
+  <div class="bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Available for opportunities</div>
+      <h1 class="hero-name">Vedant<br><span>Dawake</span></h1>
+      <div class="hero-role">// Senior SDET &middot; Automation Architect &middot; CI/CD Engineer</div>
+      <p class="hero-desc">
+        Building scalable automation frameworks and optimizing release pipelines for enterprise SaaS at Icertis.
+        3+ years turning complex testing challenges into elegant, measurable engineering wins.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="mailto:vedantdawake@gmail.com">&#8599; Contact Me</a>
+        <a class="btn btn-ghost" href="https://linkedin.com/in/vedant-dawake-0643891b4" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <div class="terminal-card">
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        <span class="terminal-title">sdet_profile.json</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-comment">// Vedant Dawake &mdash; SDET</div><br>
+        <span class="t-punct">{</span><br>
+        &nbsp;&nbsp;<span class="t-key">"role"</span><span class="t-punct">:</span> <span class="t-str">"Senior SDET"</span><span class="t-punct">,</span><br>
+        &nbsp;&nbsp;<span class="t-key">"company"</span><span class="t-punct">:</span> <span class="t-str">"Icertis"</span><span class="t-punct">,</span><br>
+        &nbsp;&nbsp;<span class="t-key">"experience"</span><span class="t-punct">:</span> <span class="t-str">"3+ years"</span><span class="t-punct">,</span><br>
+        &nbsp;&nbsp;<span class="t-key">"location"</span><span class="t-punct">:</span> <span class="t-str">"Pune, India"</span><span class="t-punct">,</span><br>
+        &nbsp;&nbsp;<span class="t-key">"awards"</span><span class="t-punct">:</span> <span class="t-num">8</span><span class="t-punct">,</span><br>
+        &nbsp;&nbsp;<span class="t-key">"languages"</span><span class="t-punct">: [</span><span class="t-str">"C#"</span><span class="t-punct">,</span> <span class="t-str">"SQL"</span><span class="t-punct">,</span> <span class="t-str">"PowerShell"</span><span class="t-punct">],</span><br>
+        &nbsp;&nbsp;<span class="t-key">"automation"</span><span class="t-punct">: [</span><span class="t-str">"Selenium"</span><span class="t-punct">,</span> <span class="t-str">"POM"</span><span class="t-punct">,</span> <span class="t-str">"E2E"</span><span class="t-punct">],</span><br>
+        &nbsp;&nbsp;<span class="t-key">"devops"</span><span class="t-punct">: [</span><span class="t-str">"GitHub Actions"</span><span class="t-punct">,</span> <span class="t-str">"CI/CD"</span><span class="t-punct">],</span><br>
+        &nbsp;&nbsp;<span class="t-key">"learning"</span><span class="t-punct">: [</span><span class="t-str">"Playwright"</span><span class="t-punct">,</span> <span class="t-str">"Docker"</span><span class="t-punct">,</span> <span class="t-str">"API Automation"</span><span class="t-punct">]</span><br>
+        <span class="t-punct">}</span><div class="t-cursor"></div>
+      </div>
+    </div>
+  </div>
 </section>
+
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num">3+</div>
+    <div class="stat-label">Years in Test Automation</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">8+</div>
+    <div class="stat-label">Awards &amp; Recognitions</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">5+</div>
+    <div class="stat-label">Major Features Automated</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">2</div>
+    <div class="stat-label">CI/CD Pipelines Architected</div>
+  </div>
+</div>
 
 <section id="about">
-<div class="container">
-<h2 class="section-title">About</h2>
-
-<div class="about-box">
-
-<p>
-Software Development Engineer in Test with over <strong>3 years of experience building scalable automation solutions for enterprise SaaS platforms</strong>. I specialize in designing robust automation frameworks, optimizing CI/CD pipelines, and improving release stability for complex enterprise systems.
-</p>
-
-<p>
-At <strong>Icertis</strong>, I have worked extensively on developing <strong>reusable C# Selenium automation frameworks</strong> that support high-impact enterprise features such as GDPR data anonymization, WOPI integrations, UI/UX modernization, and bulk operations. My focus has been on building <strong>modular and maintainable automation systems</strong> that improve testing efficiency while ensuring strong product reliability.
-</p>
-
-<p>
-Beyond automation development, I actively contribute to <strong>release engineering and CI/CD optimization</strong>. I implemented an impacted test execution strategy within CI pipelines that eliminated redundant regression runs and saved approximately <strong>2 hours of execution time daily</strong>. I also developed PowerShell-based deployment automation for Hangfire that reduced deployment time from <strong>30 minutes to just 4 minutes — an 85% improvement</strong>.
-</p>
-
-<p>
-I regularly collaborate with QA, product, and engineering teams during Hotfix and Maintenance Pack releases to ensure critical fixes reach customers quickly while maintaining release stability. My approach to quality engineering focuses on building automation infrastructure that improves engineering productivity and release confidence.
-</p>
-
-<p>
-Away from the screen, you’ll likely find me on the <strong>football field, exploring new roads on two wheels, or experimenting with new flavors in the kitchen</strong>. —activities that fuel my creativity and keep me grounded.".
-</p>
-
-</div>
-
-</div>
+  <div class="section-label">About</div>
+  <h2 class="section-title">Engineering with<br>intent &amp; impact.</h2>
+  <div class="reveal" style="max-width:700px;">
+    <p style="font-size:17px;line-height:1.9;color:var(--muted);">
+      I'm a Software Development Engineer in Test at <strong style="color:var(--text);">Icertis</strong>, building and maintaining automation infrastructure for one of the world's leading enterprise contract management platforms. My approach: understand the system deeply, identify the friction points, and engineer durable solutions &mdash; not just passing tests.
+    </p>
+    <p style="font-size:17px;line-height:1.9;color:var(--muted);margin-top:20px;">
+      Across two high-impact teams &mdash; Hypercare and Core &mdash; I've shipped automation for GDPR compliance, WOPI, Bulk Actions, Data Protection, and a complete UI/UX revamp, while also rearchitecting CI/CD pipelines to save hours of manual work every single day.
+    </p>
+  </div>
 </section>
 
-<section id="impact">
-<div class="container">
-<h2 class="section-title">Engineering Impact</h2>
+<section id="experience" style="padding-top:0;">
+  <div class="section-label">Experience</div>
+  <h2 class="section-title">Where I've<br>made impact.</h2>
+  <div class="timeline">
 
-<div class="cards">
-<div class="card">
-<h3>85% Faster Deployments</h3>
-<p>Reduced Hangfire deployment time from 30 minutes to 4 minutes through PowerShell automation integrated into CI/CD pipelines.</p>
-</div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="exp-header">
+        <div>
+          <div class="exp-company">Icertis &middot; Core Team</div>
+          <div class="exp-title">SDET &mdash; Ongoing Feature Development</div>
+        </div>
+        <div class="exp-period">2023 &ndash; Present</div>
+      </div>
+      <p class="exp-desc">Responsible for automating and validating all ongoing platform features. Wrote new test methods, refactored legacy code, and handled upgrade testing for major enterprise-grade features shipped to production.</p>
+      <div class="achievement-list">
+        <div class="achievement">
+          <div class="ach-icon">&#128274;</div>
+          <div class="ach-text"><strong>GDPR Compliance Automation</strong> &mdash; Built reusable validation utilities for data anonymization and compliance testing across the platform.</div>
+        </div>
+        <div class="achievement">
+          <div class="ach-icon">&#128196;</div>
+          <div class="ach-text"><strong>WOPI Integration Testing</strong> &mdash; Automated test coverage for document collaboration protocol integration.</div>
+        </div>
+        <div class="achievement">
+          <div class="ach-icon">&#9889;</div>
+          <div class="ach-text"><strong>Bulk Actions &amp; Data Protection</strong> &mdash; End-to-end automation for Agreement Deletion workflows and bulk operation test suites.</div>
+        </div>
+        <div class="achievement">
+          <div class="ach-icon">&#127912;</div>
+          <div class="ach-text"><strong>UI/UX Revamp Coverage</strong> &mdash; Led automation for the complete UI modernization, covering all major flows across the redesigned platform.</div>
+        </div>
+        <div class="achievement">
+          <div class="ach-icon">&#128640;</div>
+          <div class="ach-text"><strong>Hangfire Deployment Optimization</strong> &mdash; Refactored deployment scripts from <strong>25&ndash;30 minutes down to 3&ndash;5 minutes</strong> &mdash; an 83% reduction.</div>
+        </div>
+        <div class="achievement">
+          <div class="ach-icon">&#128421;</div>
+          <div class="ach-text"><strong>VM Optimization Scripts</strong> &mdash; Wrote scripts to optimize nightly test execution VMs, reducing resource overhead and improving throughput.</div>
+        </div>
+      </div>
+      <div class="awards-row">
+        <span class="award-badge">Rising Star &mdash; GDPR</span>
+        <span class="award-badge">Above &amp; Beyond &mdash; Bulk Actions</span>
+        <span class="award-badge">Job Well Done &mdash; WOPI</span>
+        <span class="award-badge">Super Builder &mdash; UI/UX</span>
+      </div>
+    </div>
 
-<div class="card">
-<h3>2 Hours Saved Daily</h3>
-<p>Implemented impacted test execution workflows that eliminated redundant regression runs.</p>
-</div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="exp-header">
+        <div>
+          <div class="exp-company">Icertis &middot; Hypercare Team</div>
+          <div class="exp-title">SDET &mdash; Release Stability &amp; Automation</div>
+        </div>
+        <div class="exp-period">2022 &ndash; 2023</div>
+      </div>
+      <p class="exp-desc">Owned release quality for legacy product versions. Led automation of test cases for bugs, new scenarios, and feature additions &mdash; while pioneering smarter regression execution strategies.</p>
+      <div class="achievement-list">
+        <div class="achievement">
+          <div class="ach-icon">&#128202;</div>
+          <div class="ach-text"><strong>40% Reduction in Flaky Tests</strong> &mdash; Systematically diagnosed and stabilized flaky test cases, directly improving regression reliability and release velocity.</div>
+        </div>
+        <div class="achievement">
+          <div class="ach-icon">&#127919;</div>
+          <div class="ach-text"><strong>Impacted Test Execution Strategy</strong> &mdash; Introduced a methodology to analyze bug fixes and map only impacted test paths for hotfix suites, resulting in 32% fewer production bugs.</div>
+        </div>
+        <div class="achievement">
+          <div class="ach-icon">&#9881;</div>
+          <div class="ach-text"><strong>CI/CD Pipeline for Impacted Flows</strong> &mdash; Built and deployed GitHub Actions workflows to automate impacted test selection, saving 2&ndash;3 hours of manual work daily.</div>
+        </div>
+        <div class="achievement">
+          <div class="ach-icon">&#127942;</div>
+          <div class="ach-text"><strong>Team Lead on Complex Releases</strong> &mdash; Stepped up to lead team through high-pressure, complex timelines on multiple release cycles.</div>
+        </div>
+      </div>
+      <div class="awards-row">
+        <span class="award-badge">Rising Star &mdash; Regression</span>
+        <span class="award-badge">Above &amp; Beyond &mdash; Impacted Workflow</span>
+        <span class="award-badge">Job Well Done x3</span>
+      </div>
+    </div>
 
-<div class="card">
-<h3>Framework Stability</h3>
-<p>Improved automation reliability by reducing flaky failures through systematic root cause analysis.</p>
-</div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:var(--accent3);box-shadow:0 0 12px rgba(0,255,179,0.4);"></div>
+      <div class="exp-header">
+        <div>
+          <div class="exp-company" style="color:var(--accent3);">Savitribai Phule Pune University</div>
+          <div class="exp-title">B.E. &mdash; Information Technology</div>
+        </div>
+        <div class="exp-period">2018 &ndash; 2022</div>
+      </div>
+      <p class="exp-desc">Bachelor of Engineering in Information Technology. Foundation in software systems, data structures, and engineering principles that now informs every automation decision.</p>
+    </div>
 
-<div class="card">
-<h3>Compliance Automation</h3>
-<p>Developed GDPR anonymization automation ensuring enterprise regulatory compliance coverage.</p>
-</div>
-</div>
-
-</div>
+  </div>
 </section>
 
-<section id="work">
-<div class="container">
-<h2 class="section-title">Key Work at Icertis</h2>
+<section id="projects" style="padding-top:0;">
+  <div class="section-label">Projects</div>
+  <h2 class="section-title">Key engineering<br>contributions.</h2>
+  <div class="projects-grid">
 
-<div class="cards">
+    <div class="project-card">
+      <div class="project-icon">&#129395;</div>
+      <div class="project-name">Automation Framework Architecture</div>
+      <p class="project-desc">Designed and built a scalable, reusable UI automation framework in C# with Selenium and Page Object Model, supporting enterprise-scale regression testing across multiple product teams.</p>
+      <div class="project-impact">&#8599; Adopted across Hypercare &amp; Core teams</div>
+      <div class="tags"><span class="tag">C#</span><span class="tag">Selenium</span><span class="tag">POM</span><span class="tag">NUnit</span></div>
+    </div>
 
-<div class="card">
-<h3>Automation Framework Architecture</h3>
-<p>Designed reusable Selenium + C# framework components enabling scalable UI automation across multiple enterprise modules.</p>
-</div>
+    <div class="project-card">
+      <div class="project-icon">&#127919;</div>
+      <div class="project-name">Impacted Test Execution Engine</div>
+      <p class="project-desc">Architected a methodology to parse bug fix changesets and automatically identify impacted test paths. Built the full CI/CD workflow in GitHub Actions to execute only relevant suites during hotfix releases.</p>
+      <div class="project-impact">&#8599; 32% fewer production bugs &middot; 2-3 hrs saved daily</div>
+      <div class="tags"><span class="tag">GitHub Actions</span><span class="tag">CI/CD</span><span class="tag">C#</span><span class="tag">Shell</span></div>
+    </div>
 
-<div class="card">
-<h3>GDPR Automation</h3>
-<p>Built end‑to‑end automation validating data anonymization workflows ensuring regulatory compliance.</p>
-</div>
+    <div class="project-card">
+      <div class="project-icon">&#9889;</div>
+      <div class="project-name">Hangfire Deployment Optimization</div>
+      <p class="project-desc">Rewrote and optimized the Hangfire deployment PowerShell scripts embedded in CI/CD pipelines. Reduced deployment duration from 25&ndash;30 minutes to under 5 minutes.</p>
+      <div class="project-impact">&#8599; 83% faster &mdash; from 30 min to 3-5 min</div>
+      <div class="tags"><span class="tag">PowerShell</span><span class="tag">CI/CD</span><span class="tag">DevOps</span></div>
+    </div>
 
-<div class="card">
-<h3>Bulk Actions & UI Revamp</h3>
-<p>Led automation coverage for large UI/UX redesign and enterprise bulk operations features.</p>
-</div>
+    <div class="project-card">
+      <div class="project-icon">&#128274;</div>
+      <div class="project-name">GDPR Compliance Test Suite</div>
+      <p class="project-desc">Built a comprehensive automation layer for GDPR data anonymization validation, including reusable utility methods for enterprise compliance scenarios across contract lifecycle management workflows.</p>
+      <div class="project-impact">&#8599; Full GDPR coverage across enterprise CLM platform</div>
+      <div class="tags"><span class="tag">Compliance</span><span class="tag">C#</span><span class="tag">Selenium</span><span class="tag">SQL</span></div>
+    </div>
 
-<div class="card">
-<h3>WOPI Integration</h3>
-<p>Automated validation for document collaboration integrations ensuring reliability in enterprise workflows.</p>
-</div>
+    <div class="project-card">
+      <div class="project-icon">&#128202;</div>
+      <div class="project-name">Flaky Test Stabilization Initiative</div>
+      <p class="project-desc">Systematically diagnosed root causes of flaky tests &mdash; locator instability, race conditions, brittle waits &mdash; and implemented framework-level fixes to stabilize execution across the regression suite.</p>
+      <div class="project-impact">&#8599; 40% reduction in flakiness &middot; faster release cycles</div>
+      <div class="tags"><span class="tag">Selenium</span><span class="tag">Test Stability</span><span class="tag">RCA</span></div>
+    </div>
 
-</div>
-</div>
+    <div class="project-card">
+      <div class="project-icon">&#128421;</div>
+      <div class="project-name">Nightly VM Execution Optimization</div>
+      <p class="project-desc">Wrote infrastructure scripts to optimize nightly test execution VMs, reducing overhead and improving throughput, ensuring clean environments for overnight regression runs.</p>
+      <div class="project-impact">&#8599; Improved nightly execution reliability &amp; speed</div>
+      <div class="tags"><span class="tag">PowerShell</span><span class="tag">DevOps</span><span class="tag">Infrastructure</span></div>
+    </div>
+
+  </div>
 </section>
 
-<section id="experience">
-<div class="container">
-<h2 class="section-title">Experience</h2>
+<section id="skills" style="padding-top:0;">
+  <div class="section-label">Skills</div>
+  <h2 class="section-title">Technical<br>toolkit.</h2>
+  <div class="skills-container">
 
-<div class="experience-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Languages</div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">C#</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.9"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">SQL</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.8"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">PowerShell</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.85"></div></div></div>
+    </div>
 
-<div class="exp-card">
-<h3>Automation Framework Development</h3>
-<ul>
-<li>Designed modular C# automation framework components supporting scalable UI automation.</li>
-<li>Automated enterprise features including GDPR anonymization, WOPI integrations, and Bulk Actions.</li>
-<li>Built reusable validation utilities improving regression reliability.</li>
-<li>Received Job Well Done Award for GDPR automation work.</li>
-</ul>
-</div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Automation</div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Selenium</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.92"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">UI Automation</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.9"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Framework Design</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.85"></div></div></div>
+    </div>
 
-<div class="exp-card">
-<h3>Release Management</h3>
-<ul>
-<li>Owned Hotfix and Maintenance Pack releases across parallel deployments.</li>
-<li>Reduced automation failures through structured root cause analysis.</li>
-<li>Collaborated with QA, product, and engineering teams during release cycles.</li>
-</ul>
-</div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">DevOps &amp; CI/CD</div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">GitHub Actions</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.88"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Pipeline Optimization</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.82"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Deployment Automation</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.8"></div></div></div>
+    </div>
 
-<div class="exp-card">
-<h3>CI/CD & Deployment Automation</h3>
-<ul>
-<li>Implemented impacted workflow strategy saving ~2 hours of CI execution daily.</li>
-<li>Integrated automation suites into CI/CD pipelines using self‑hosted runners.</li>
-<li>Built PowerShell deployment automation reducing Hangfire deployment time from 30 min to 4 min.</li>
-<li>Integrated deployment scripts into CI pipelines preventing recurring production issues.</li>
-</ul>
-</div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Testing Practices</div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Root Cause Analysis</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.9"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Release Management</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.85"></div></div></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Regression Strategy</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.88"></div></div></div>
+    </div>
 
-</div>
+    <div class="skill-group reveal" style="border-color:rgba(0,255,179,0.2);">
+      <div class="skill-group-title" style="color:var(--accent3);">Currently Learning</div>
+      <div class="skill-item"><div class="skill-dot" style="background:var(--accent3);"></div><span class="skill-name">Playwright</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.45" style="background:linear-gradient(90deg,var(--accent3),#00a87a);"></div></div></div>
+      <div class="skill-item"><div class="skill-dot" style="background:var(--accent3);"></div><span class="skill-name">API Automation</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.5" style="background:linear-gradient(90deg,var(--accent3),#00a87a);"></div></div></div>
+      <div class="skill-item"><div class="skill-dot" style="background:var(--accent3);"></div><span class="skill-name">Docker</span><div class="skill-bar-wrap"><div class="skill-bar" data-width="0.35" style="background:linear-gradient(90deg,var(--accent3),#00a87a);"></div></div></div>
+    </div>
 
-</div>
+  </div>
 </section>
 
-<section id="skills">
-<div class="container">
-<h2 class="section-title">Skills</h2>
-
-<div class="skills-grid">
-<div class="skill">C#</div>
-<div class="skill">Selenium</div>
-<div class="skill">SQL</div>
-<div class="skill">PowerShell</div>
-<div class="skill">CI/CD</div>
-<div class="skill">GitHub Actions</div>
-<div class="skill">Automation Framework Design</div>
-<div class="skill">Root Cause Analysis</div>
-<div class="skill">End‑to‑End Testing</div>
+<div id="contact-outer">
+  <section id="contact">
+    <div class="contact-grid">
+      <div>
+        <div class="section-label">Contact</div>
+        <div class="contact-heading">Let's build<br>something<br><span style="color:var(--accent);">excellent.</span></div>
+        <p class="contact-sub">Open to new opportunities, collaborations, and conversations about automation, testing strategy, and engineering culture.</p>
+        <a class="btn btn-primary" href="mailto:vedantdawake@gmail.com" style="display:inline-flex;">&#8599; Send an Email</a>
+      </div>
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:vedantdawake@gmail.com">
+          <div class="contact-link-icon">&#9993;</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-val">vedantdawake@gmail.com</div>
+          </div>
+        </a>
+        <a class="contact-link" href="https://linkedin.com/in/vedant-dawake-0643891b4" target="_blank">
+          <div class="contact-link-icon">&#128279;</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-val">vedant-dawake-0643891b4</div>
+          </div>
+        </a>
+        <div class="contact-link" style="cursor:default;">
+          <div class="contact-link-icon">&#128222;</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">Phone</div>
+            <div class="contact-link-val">+91 7420084019</div>
+          </div>
+        </div>
+        <div class="contact-link" style="cursor:default;">
+          <div class="contact-link-icon">&#128205;</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">Location</div>
+            <div class="contact-link-val">Pune, Maharashtra, India</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
-
-</div>
-</section>
-
-<section id="contact">
-<div class="container">
-<h2 class="section-title">Contact</h2>
-<p>Feel free to reach out for opportunities or collaborations.</p>
-
-<button class="primary" onclick="openContact()">Contact Me</button>
-
-</div>
-</section>
 
 <footer>
-<p>© 2026 Vedant Dawake</p>
+  <p>&#169; 2026 <span>Vedant Dawake</span> &middot; Built for engineering excellence &middot; Pune, India</p>
 </footer>
 
-<div class="modal" id="contactModal">
-<div class="modal-content">
-<h3>Contact</h3>
-<p><strong>Email</strong><br>vedantdawake@gmail.com</p>
-<p><strong>Phone</strong><br>+91 7420084019</p>
-<button class="close" onclick="closeContact()">Close</button>
-</div>
-</div>
-
 <script>
+var cursor = document.getElementById('cursor');
+var ring = document.getElementById('cursorRing');
+var mx = 0, my = 0, rx = 0, ry = 0;
 
-function openContact(){
-document.getElementById("contactModal").style.display="flex";
+document.addEventListener('mousemove', function(e) {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
 }
+animateRing();
 
-function closeContact(){
-document.getElementById("contactModal").style.display="none";
-}
-
-const sections=document.querySelectorAll("section");
-const navLinks=document.querySelectorAll("nav a");
-
-window.addEventListener("scroll",()=>{
-let current="";
-sections.forEach(section=>{
-const sectionTop=section.offsetTop-150;
-if(pageYOffset>=sectionTop){current=section.getAttribute("id");}
+document.querySelectorAll('a, button').forEach(function(el) {
+  el.addEventListener('mouseenter', function() {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    ring.style.width = '60px'; ring.style.height = '60px';
+  });
+  el.addEventListener('mouseleave', function() {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.width = '40px'; ring.style.height = '40px';
+  });
 });
 
-navLinks.forEach(a=>{
-a.classList.remove("active");
-if(a.getAttribute("href")==="#"+current){a.classList.add("active");}
-});
+var io = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      entry.target.querySelectorAll('.skill-bar[data-width]').forEach(function(bar) {
+        var w = parseFloat(bar.getAttribute('data-width'));
+        setTimeout(function() { bar.style.transform = 'scaleX(' + w + ')'; }, 200);
+        bar.removeAttribute('data-width');
+      });
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal, .timeline-item, .project-card').forEach(function(el) {
+  io.observe(el);
 });
 
+document.querySelectorAll('nav a').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var href = a.getAttribute('href');
+    if (href && href.charAt(0) === '#') {
+      e.preventDefault();
+      var target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
 </script>
-
 </body>
 </html>
-
