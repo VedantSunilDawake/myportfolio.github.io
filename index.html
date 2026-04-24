@@ -151,7 +151,7 @@ section { padding: 60px 24px; } .contact-grid { grid-template-columns: 1fr; gap:
       <div class="hero-role">// Senior SDET &middot; Automation Architect &middot; CI/CD Engineer</div>
       <p class="hero-desc">Building scalable automation frameworks and optimizing release pipelines for enterprise SaaS at Icertis. 3+ years turning complex testing challenges into elegant, measurable engineering wins.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="mailto:vedantdawake@gmail.com">&#8599; Contact Me</a>
+        <a class="btn btn-primary" href="#contact" id="heroContactBtn">&#8599; Contact Me</a>
         <a class="btn btn-ghost" href="https://linkedin.com/in/vedant-dawake-0643891b4" target="_blank">LinkedIn</a>
       </div>
     </div>
@@ -406,13 +406,14 @@ section { padding: 60px 24px; } .contact-grid { grid-template-columns: 1fr; gap:
         <div class="section-label">Contact</div>
         <div class="contact-heading">Let's build<br>something<br><span style="color:var(--accent);">excellent.</span></div>
         <p class="contact-sub">Open to new opportunities, collaborations, and conversations about automation, testing strategy, and engineering culture.</p>
-        <a class="btn btn-primary" href="mailto:vedantdawake@gmail.com" style="display:inline-flex;">&#8599; Send an Email</a>
+        <a class="btn btn-primary" href="mailto:vedantdawake@gmail.com" id="sendEmailBtn" style="display:inline-flex;">&#8599; Send an Email</a>
       </div>
       <div class="contact-links">
-        <a class="contact-link" href="mailto:vedantdawake@gmail.com">
+        <div class="contact-link email-copy-card" id="emailCopyCard" style="cursor:pointer;" title="Click to copy email">
           <div class="contact-link-icon">&#9993;</div>
-          <div class="contact-link-info"><div class="contact-link-label">Email</div><div class="contact-link-val">vedantdawake@gmail.com</div></div>
-        </a>
+          <div class="contact-link-info" style="flex:1;"><div class="contact-link-label">Email</div><div class="contact-link-val">vedantdawake@gmail.com</div></div>
+          <div class="copy-hint" id="copyHint" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);flex-shrink:0;transition:color 0.2s;">copy</div>
+        </div>
         <a class="contact-link" href="https://linkedin.com/in/vedant-dawake-0643891b4" target="_blank">
           <div class="contact-link-icon">&#128279;</div>
           <div class="contact-link-info"><div class="contact-link-label">LinkedIn</div><div class="contact-link-val">vedant-dawake-0643891b4</div></div>
@@ -465,16 +466,72 @@ var io = new IntersectionObserver(function(entries) {
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal, .timeline-item, .project-card').forEach(function(el) { io.observe(el); });
-document.querySelectorAll('nav a').forEach(function(a) {
+
+// Smooth scroll for all nav links and #contact hrefs
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
   a.addEventListener('click', function(e) {
     var href = a.getAttribute('href');
-    if (href && href.charAt(0) === '#') {
+    var target = document.querySelector(href);
+    if (target) {
       e.preventDefault();
-      var target = document.querySelector(href);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      target.scrollIntoView({ behavior: 'smooth' });
     }
   });
 });
+
+// Send an Email — try mailto, show copy fallback toast if it fails
+var sendEmailBtn = document.getElementById('sendEmailBtn');
+if (sendEmailBtn) {
+  sendEmailBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var email = 'vedantdawake@gmail.com';
+    var opened = window.open('mailto:' + email, '_self');
+    // If mailto failed (blocked or no client), offer copy
+    setTimeout(function() {
+      if (!opened || opened.closed || typeof opened.closed === 'undefined') {
+        copyEmail();
+      }
+    }, 500);
+    // Also just attempt the mailto directly as fallback
+    window.location.href = 'mailto:' + email;
+  });
+}
+
+// Copy email from the email card
+var emailCopyCard = document.getElementById('emailCopyCard');
+if (emailCopyCard) {
+  emailCopyCard.addEventListener('click', copyEmail);
+  emailCopyCard.addEventListener('mouseenter', function() {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    ring.style.width = '60px'; ring.style.height = '60px';
+  });
+  emailCopyCard.addEventListener('mouseleave', function() {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.width = '40px'; ring.style.height = '40px';
+  });
+}
+
+function copyEmail() {
+  var email = 'vedantdawake@gmail.com';
+  var hint = document.getElementById('copyHint');
+  navigator.clipboard.writeText(email).then(function() {
+    if (hint) { hint.textContent = '✓ copied!'; hint.style.color = 'var(--accent3)'; }
+    setTimeout(function() {
+      if (hint) { hint.textContent = 'copy'; hint.style.color = 'var(--muted)'; }
+    }, 2000);
+  }).catch(function() {
+    // Fallback for browsers that block clipboard API
+    var ta = document.createElement('textarea');
+    ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    if (hint) { hint.textContent = '✓ copied!'; hint.style.color = 'var(--accent3)'; }
+    setTimeout(function() {
+      if (hint) { hint.textContent = 'copy'; hint.style.color = 'var(--muted)'; }
+    }, 2000);
+  });
+}
 </script>
 </body>
 </html>
